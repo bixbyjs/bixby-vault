@@ -1,13 +1,13 @@
 /* global describe, it */
 
-var pkg = require('..');
+var suite = require('..');
 var expect = require('chai').expect;
 
 
-describe('bixby vault', function() {
+describe('bixby-vault', function() {
   
-  it('should export hello world', function() {
-    expect(pkg.hello).to.equal('world');
+  it('should export object', function() {
+    expect(suite).to.be.a('function');
   });
   
 });
