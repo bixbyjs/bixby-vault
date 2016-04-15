@@ -6,8 +6,16 @@ var expect = require('chai').expect;
 
 describe('bixby-vault', function() {
   
-  it('should export object', function() {
-    expect(suite).to.be.a('function');
+  describe('object specifications', function() {
+    
+    describe('client', function() {
+      var client = suite('client');
+      
+      it('should be annotated', function() {
+        expect(client['@implements']).to.equal('http://i.bixbyjs.org/opt/vault/Client/0');
+      });
+    });
+    
   });
   
 });
