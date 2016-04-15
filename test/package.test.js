@@ -7,6 +7,10 @@ var expect = require('chai').expect;
 
 describe('bixby-vault', function() {
   
+  it('should be named', function() {
+    expect(suite.name).to.equal('vault');
+  });
+  
   describe('object specifications', function() {
     
     describe('client', function() {
