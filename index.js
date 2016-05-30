@@ -1,6 +1,6 @@
 exports = module.exports = function vault(id) {
   var map = {
-    'client': './client'
+    'client': './xom/client'
   };
   
   var mid = map[id];
