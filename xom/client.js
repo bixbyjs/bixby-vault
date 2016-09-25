@@ -1,4 +1,5 @@
 exports = module.exports = function(settings) {
+  // Load modules.
   var vault = require('node-vault');
   
   

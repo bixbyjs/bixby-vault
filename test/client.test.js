@@ -1,9 +1,10 @@
 /* global describe, it */
 
-var factory = require('../lib/client');
 var $require = require('proxyquire');
-var sinon = require('sinon');
 var expect = require('chai').expect;
+var sinon = require('sinon');
+var factory = require('../xom/client');
+var Settings = require('decisions').Settings;
 
 
 describe('vault/client', function() {
@@ -15,25 +16,27 @@ describe('vault/client', function() {
   it('should be annotated', function() {
     expect(factory['@implements']).to.equal('http://i.bixbyjs.org/opt/vault/Client/0');
     expect(factory['@singleton']).to.equal(true);
-    expect(factory['@require']).to.deep.equal([ '$settings' ]);
+    expect(factory['@require']).to.deep.equal([ 'http://i.bixbyjs.org/Settings' ]);
   });
   
-  describe('created object', function() {
+  describe('Client', function() {
     var client;
-    var spyOnVault = sinon.spy(require('node-vault'));
+    var constructor = sinon.spy(require('node-vault'));
     
     before(function() {
-      var settings = { get: function(){} };
-      var stub = sinon.stub(settings, 'get')
-        .withArgs('url').returns('http://vault.example.test:8200')
-        .withArgs('token').returns('keyboardcat');
+      var settings = { isolate: function(){} };
+      var stub = sinon.stub(settings, 'isolate')
+        .withArgs('opt/vault').returns(new Settings({
+          url: 'http://vault.example.test:8200',
+          token: 'keyboardcat'
+        }));
       
-      var factory = $require('../lib/client', { 'node-vault': spyOnVault });
-      client = factory(settings);
+      var factory = $require('../xom/client', { 'node-vault': constructor });
+      client = factory.call({ baseNS: 'opt/vault' }, settings);
     })
     
     it('should be created with options from settings', function() {
-      expect(spyOnVault).to.have.been.calledWith({
+      expect(constructor).to.have.been.calledWith({
         endpoint: 'http://vault.example.test:8200',
         token: 'keyboardcat'
       });
